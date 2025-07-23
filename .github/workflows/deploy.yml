@@ -15,9 +15,11 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
+          debug: true
           script: |
+            . /home/ubuntu/.nvm/nvm.sh
             cd /home/ubuntu/animateM
             git pull origin main
-            npm install --force
+            npm install --legacy-peer-deps
             npm run build
             pm2 restart animateM
