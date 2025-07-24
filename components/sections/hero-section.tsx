@@ -11,7 +11,7 @@ export default function HeroSection() {
           <div className="flex flex-col justify-center space-y-4">
             <div className="space-y-2">
               <Badge className="animate-fade-in" variant="outline">
-                Hello Boss
+                Hello Boss Dung
               </Badge>
               <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none animate-slide-up">
                 Amazing React Animations
