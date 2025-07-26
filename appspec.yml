@@ -5,6 +5,6 @@ files:
     destination: /home/ubuntu/animateM
 hooks:
   AfterInstall:
-    - location: scripts/deploy.sh
+    - location: scripts/start-process.sh
       timeout: 300
       runas: ubuntu

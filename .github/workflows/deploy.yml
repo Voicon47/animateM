@@ -1,25 +1,49 @@
-name: Deploy Next.js to EC2
+# name: Deploy Next.js to EC2
+# on:
+#   push:
+#     branches: [main]
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v3
+#       - name: SSH to EC2 and Deploy
+#         uses: appleboy/ssh-action@v0.1.4
+#         with:
+#           host: ${{ secrets.SSH_HOST }}
+#           username: ${{ secrets.SSH_USERNAME }}
+#           key: ${{ secrets.SSH_PRIVATE_KEY }}
+#           port: 22
+#           debug: true
+#           script: |
+#             . /home/ubuntu/.nvm/nvm.sh
+#             cd /home/ubuntu/animateM
+#             git pull origin main
+#             npm install --legacy-peer-deps
+#             npm run build
+#             pm2 restart animateM
+name: Deploy Portfolio to EC2
 on:
   push:
-    branches: [main]
+    branches: [ main ]
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: SSH to EC2 and Deploy
-        uses: appleboy/ssh-action@v0.1.4
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          debug: true
-          script: |
-            . /home/ubuntu/.nvm/nvm.sh
-            cd /home/ubuntu/animateM
-            git pull origin main
-            npm install --legacy-peer-deps
-            npm run build
-            pm2 restart animateM
+    - uses: actions/checkout@v3
+    - name: Deploy to EC2
+      env:
+        EC2_HOST: ${{ secrets.SSH_HOST }}
+        EC2_USER: ${{ secrets.SSH_USERNAME }}
+        EC2_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      run: |
+        echo "$EC2_KEY" > ec2-key.pem
+        chmod 600 ec2-key.pem
+        ssh -o StrictHostKeyChecking=no -i ec2-key.pem $EC2_USER@$EC2_HOST << 'EOF'
+          cd ~/animateM
+          git pull origin main
+          npm install
+          pm2 restart animateM
+        EOF
+        rm ec2-key.pem
