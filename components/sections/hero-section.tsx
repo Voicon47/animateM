@@ -14,7 +14,7 @@ export default function HeroSection() {
                 HELLO PERRY DINH
               </Badge>
               <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none animate-slide-up">
-                Amazing React Animations
+                Amazing React Animations ....
               </h1>
               <p className="max-w-[600px] text-muted-foreground md:text-xl animate-slide-up animation-delay-200">
                 Discover and implement stunning animations for your React projects. Boost user experience with smooth,
